@@ -1,8 +1,9 @@
 <script setup>
 import { ref } from 'vue';
-import Lesson03 from './components/Lesson03/Lesson03.vue';
-import Lesson05 from './components/Lesson05/Lesson05.vue';
-import Lesson06 from './components/Lesson06/Lesson06.vue';
+import Lesson03 from './components/Lesson03.vue';
+import Lesson05 from './components/Lesson05.vue';
+import Lesson06 from './components/Lesson06.vue';
+import Lesson07 from './components/Lesson07.vue';
 
 const lessons = [
   {
@@ -17,9 +18,13 @@ const lessons = [
     name: '06 - Animations',
     component: Lesson06,
   },
+  {
+    name: '07 - Cameras',
+    component: Lesson07,
+  },
 ];
 
-const chosenLesson = ref(2);
+const chosenLesson = ref(3);
 const isMenuOpen = ref(false);
 
 const chooseLesson = (lesson) => {
