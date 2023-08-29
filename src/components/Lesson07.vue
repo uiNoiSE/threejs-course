@@ -5,10 +5,8 @@ import {
   Clock,
   Mesh,
   MeshBasicMaterial,
-  OrthographicCamera,
   PerspectiveCamera,
   Scene,
-  Vector3,
   WebGLRenderer,
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
@@ -59,14 +57,8 @@ onMounted(() => {
   const controls = new OrbitControls(camera, canvas);
   controls.enableDamping = true;
 
-  // Clock
-  const clock = new Clock();
-
   // Animations
   const tick = () => {
-    // Clock
-    const elapsedTime = clock.getElapsedTime();
-
     controls.update();
 
     // Render

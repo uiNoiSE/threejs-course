@@ -4,6 +4,7 @@ import Lesson03 from './components/Lesson03.vue';
 import Lesson05 from './components/Lesson05.vue';
 import Lesson06 from './components/Lesson06.vue';
 import Lesson07 from './components/Lesson07.vue';
+import Lesson08 from './components/Lesson08.vue';
 
 const lessons = [
   {
@@ -22,9 +23,13 @@ const lessons = [
     name: '07 - Cameras',
     component: Lesson07,
   },
+  {
+    name: '08 - Fullscreen and resizing',
+    component: Lesson08,
+  },
 ];
 
-const chosenLesson = ref(3);
+const chosenLesson = ref(4);
 const isMenuOpen = ref(false);
 
 const chooseLesson = (lesson) => {
