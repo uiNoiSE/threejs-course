@@ -5,6 +5,7 @@ import Lesson05 from './components/Lesson05.vue';
 import Lesson06 from './components/Lesson06.vue';
 import Lesson07 from './components/Lesson07.vue';
 import Lesson08 from './components/Lesson08.vue';
+import Lesson09 from './components/Lesson09.vue';
 
 const lessons = [
   {
@@ -27,9 +28,13 @@ const lessons = [
     name: '08 - Fullscreen and resizing',
     component: Lesson08,
   },
+  {
+    name: '09 - Geometries',
+    component: Lesson09,
+  },
 ];
 
-const chosenLesson = ref(4);
+const chosenLesson = ref(5);
 const isMenuOpen = ref(false);
 
 const chooseLesson = (lesson) => {
@@ -60,9 +65,9 @@ const toggleMenu = (state) => {
     </ul>
   </Transition>
 
-  <keep-alive>
+  <KeepAlive>
     <component :is="lessons[chosenLesson].component" />
-  </keep-alive>
+  </KeepAlive>
 </template>
 
 <style lang="less">

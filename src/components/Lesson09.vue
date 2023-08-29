@@ -1,7 +1,8 @@
 <script setup>
-import { onMounted, onBeforeMount, onUnmounted, ref } from 'vue';
+import { onBeforeMount, onMounted, onUnmounted, ref } from 'vue';
 import {
-  BoxGeometry,
+  BufferAttribute,
+  BufferGeometry,
   Mesh,
   MeshBasicMaterial,
   PerspectiveCamera,
@@ -31,11 +32,19 @@ onMounted(() => {
   window.addEventListener('dblclick', () => handleFullscreen(canvas));
 
   const sceene = new Scene();
+  const geometry = new BufferGeometry();
+  const material = new MeshBasicMaterial({ color: 'red', wireframe: true });
+  const count = 5000;
+  const positionsArray = new Float32Array(count * 3 * 3);
 
-  const mesh = new Mesh(
-    new BoxGeometry(1, 1, 1, 5, 5, 5),
-    new MeshBasicMaterial({ color: 'red' })
-  );
+  for (let i = 0; i < count * 3 * 3; i++) {
+    positionsArray[i] = Math.random() - 0.5;
+  }
+
+  const positionsAttribute = new BufferAttribute(positionsArray, 3);
+
+  const mesh = new Mesh(geometry, material);
+  geometry.setAttribute('position', positionsAttribute);
   sceene.add(mesh);
 
   const aspectRatio = sizes.width.value / sizes.height.value;
@@ -69,6 +78,10 @@ onMounted(() => {
   onUnmounted(() => {
     canvas.value = null;
   });
+});
+
+onUnmounted(() => {
+  canvas.value = null;
 });
 </script>
 
