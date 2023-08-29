@@ -6,6 +6,7 @@ import Lesson06 from './components/Lesson06.vue';
 import Lesson07 from './components/Lesson07.vue';
 import Lesson08 from './components/Lesson08.vue';
 import Lesson09 from './components/Lesson09.vue';
+import Lesson10 from './components/Lesson10.vue';
 
 const lessons = [
   {
@@ -32,9 +33,13 @@ const lessons = [
     name: '09 - Geometries',
     component: Lesson09,
   },
+  {
+    name: '10 - Debug UI',
+    component: Lesson10,
+  },
 ];
 
-const chosenLesson = ref(5);
+const chosenLesson = ref(6);
 const isMenuOpen = ref(false);
 
 const chooseLesson = (lesson) => {
