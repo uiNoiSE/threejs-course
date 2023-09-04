@@ -10,13 +10,13 @@ import {
 } from 'three';
 
 onMounted(() => {
-  const sceene = new Scene();
+  const scene = new Scene();
 
   const geometry = new BoxGeometry(1, 1, 1);
   const material = new MeshBasicMaterial({ color: 'red' });
 
   const mesh = new Mesh(geometry, material);
-  sceene.add(mesh);
+  scene.add(mesh);
 
   const sizes = {
     width: 800,
@@ -28,7 +28,7 @@ onMounted(() => {
   // Camera
   const camera = new PerspectiveCamera(75, aspectRatio());
   camera.position.z = 3;
-  sceene.add(camera);
+  scene.add(camera);
 
   const canvas = document.querySelector('.three');
   const renderer = new WebGLRenderer({
@@ -36,7 +36,7 @@ onMounted(() => {
   });
   renderer.setSize(sizes.width, sizes.height);
 
-  renderer.render(sceene, camera);
+  renderer.render(scene, camera);
 });
 </script>
 

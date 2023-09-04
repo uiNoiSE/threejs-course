@@ -30,13 +30,13 @@ onBeforeMount(() => {
 });
 
 onMounted(() => {
-  const sceene = new Scene();
+  const scene = new Scene();
 
   const mesh = new Mesh(
     new BoxGeometry(1, 1, 1, 5, 5, 5),
     new MeshBasicMaterial({ color: 'red' })
   );
-  sceene.add(mesh);
+  scene.add(mesh);
 
   const aspectRatio = sizes.width / sizes.height;
 
@@ -44,7 +44,7 @@ onMounted(() => {
   const camera = new PerspectiveCamera(75, aspectRatio, 0.1, 100);
   camera.position.set(0, 0, 3);
   camera.lookAt(mesh.position);
-  sceene.add(camera);
+  scene.add(camera);
 
   const canvas = document.querySelector('.three');
   const renderer = new WebGLRenderer({
@@ -62,7 +62,7 @@ onMounted(() => {
     controls.update();
 
     // Render
-    renderer.render(sceene, camera);
+    renderer.render(scene, camera);
     window.requestAnimationFrame(tick);
   };
   tick();

@@ -13,7 +13,7 @@ import {
 } from 'three';
 
 onMounted(() => {
-  const sceene = new Scene();
+  const scene = new Scene();
 
   /*
   Objects
@@ -22,7 +22,7 @@ onMounted(() => {
   group.position.y = 1;
   group.scale.y = 2;
   group.rotation.y = 1;
-  sceene.add(group);
+  scene.add(group);
 
   const cube1 = new Mesh(
     new BoxGeometry(1, 1, 1),
@@ -33,20 +33,20 @@ onMounted(() => {
     new BoxGeometry(1, 1, 1),
     new MeshBasicMaterial({ color: 'green' })
   );
-  cube2.position.x = -2
+  cube2.position.x = -2;
 
   const cube3 = new Mesh(
     new BoxGeometry(1, 1, 1),
     new MeshBasicMaterial({ color: 'blue' })
   );
-  cube3.position.x = 2
+  cube3.position.x = 2;
 
   group.add(cube1, cube2, cube3);
 
   // const geometry = new BoxGeometry(1, 1, 1);
   // const material = new MeshBasicMaterial({ color: 'red' });
   // const mesh = new Mesh(geometry, material);
-  // sceene.add(mesh);
+  // scene.add(mesh);
 
   // // Scale
   // mesh.scale.set(2, 0.5, 0.5);
@@ -69,13 +69,13 @@ onMounted(() => {
   };
 
   const axesHelper = new AxesHelper();
-  sceene.add(axesHelper);
+  scene.add(axesHelper);
 
   // Camera
   const aspectRatio = () => sizes.width / sizes.height;
   const camera = new PerspectiveCamera(75, aspectRatio());
   camera.position.set(0, 0, 3);
-  sceene.add(camera);
+  scene.add(camera);
   // camera.lookAt(mesh.position);
 
   const canvas = document.querySelector('.three');
@@ -83,7 +83,7 @@ onMounted(() => {
     canvas,
   });
   renderer.setSize(sizes.width, sizes.height);
-  renderer.render(sceene, camera);
+  renderer.render(scene, camera);
 });
 </script>
 

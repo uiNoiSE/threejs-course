@@ -33,13 +33,13 @@ onMounted(() => {
 
   loadingManager.onStart = () => {
     console.log('onStart');
-  }
+  };
   loadingManager.onLoad = () => {
     console.log('onLoaded');
-  }
+  };
   loadingManager.onProgress = () => {
     console.log('onProgress');
-  }
+  };
 
   const textureLoader = new TextureLoader(loadingManager);
   const colorTexture = textureLoader.load('/textures/minecraft.png');
@@ -47,7 +47,9 @@ onMounted(() => {
   const alphaTexture = textureLoader.load('/textures/door/alpha.jpg');
   const heightTexture = textureLoader.load('/textures/door/height.jpg');
   const normalTexture = textureLoader.load('/textures/door/normal.jpg');
-  const ambientOcclusionTexture = textureLoader.load('/textures/door/ambientOcclusion.jpg');
+  const ambientOcclusionTexture = textureLoader.load(
+    '/textures/door/ambientOcclusion.jpg'
+  );
   const metalnessTexture = textureLoader.load('/textures/door/metalness.jpg');
   const roughnessTexture = textureLoader.load('/textures/door/roughness.jpg');
 
@@ -63,7 +65,7 @@ onMounted(() => {
   canvas.value = document.querySelector('.three');
   const color = '#ff0000';
 
-  const sceene = new Scene();
+  const scene = new Scene();
   const geometry = new BoxGeometry(1, 1, 1);
   const material = new MeshBasicMaterial({
     map: colorTexture,
@@ -71,7 +73,7 @@ onMounted(() => {
   });
 
   const mesh = new Mesh(geometry, material);
-  sceene.add(mesh);
+  scene.add(mesh);
   const parameters = {
     color,
     spin: () => {
@@ -107,7 +109,7 @@ onMounted(() => {
   const camera = new PerspectiveCamera(75, aspectRatio, 0.1, 100);
   camera.position.set(0, 0, 3);
   camera.lookAt(mesh.position);
-  sceene.add(camera);
+  scene.add(camera);
 
   const renderer = new WebGLRenderer({
     canvas: canvas.value,
@@ -124,7 +126,7 @@ onMounted(() => {
     controls.update();
 
     // Render
-    renderer.render(sceene, camera);
+    renderer.render(scene, camera);
     window.requestAnimationFrame(tick);
   };
   tick();

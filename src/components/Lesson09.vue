@@ -31,7 +31,7 @@ onMounted(() => {
   canvas.value = document.querySelector('.three');
   window.addEventListener('dblclick', () => handleFullscreen(canvas));
 
-  const sceene = new Scene();
+  const scene = new Scene();
   const geometry = new BufferGeometry();
   const material = new MeshBasicMaterial({ color: 'red', wireframe: true });
   const count = 5000;
@@ -45,7 +45,7 @@ onMounted(() => {
 
   const mesh = new Mesh(geometry, material);
   geometry.setAttribute('position', positionsAttribute);
-  sceene.add(mesh);
+  scene.add(mesh);
 
   const aspectRatio = sizes.width.value / sizes.height.value;
 
@@ -53,7 +53,7 @@ onMounted(() => {
   const camera = new PerspectiveCamera(75, aspectRatio, 0.1, 100);
   camera.position.set(0, 0, 3);
   camera.lookAt(mesh.position);
-  sceene.add(camera);
+  scene.add(camera);
 
   const renderer = new WebGLRenderer({
     canvas: canvas.value,
@@ -70,7 +70,7 @@ onMounted(() => {
     controls.update();
 
     // Render
-    renderer.render(sceene, camera);
+    renderer.render(scene, camera);
     window.requestAnimationFrame(tick);
   };
   tick();

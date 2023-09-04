@@ -28,7 +28,7 @@ onMounted(() => {
   canvas.value = document.querySelector('.three');
   const color = '#ff0000';
 
-  const sceene = new Scene();
+  const scene = new Scene();
   const geometry = new BoxGeometry(1, 1, 1);
   const material = new MeshBasicMaterial({
     color,
@@ -36,7 +36,7 @@ onMounted(() => {
   });
 
   const mesh = new Mesh(geometry, material);
-  sceene.add(mesh);
+  scene.add(mesh);
   const parameters = {
     color,
     spin: () => {
@@ -72,7 +72,7 @@ onMounted(() => {
   const camera = new PerspectiveCamera(75, aspectRatio, 0.1, 100);
   camera.position.set(0, 0, 3);
   camera.lookAt(mesh.position);
-  sceene.add(camera);
+  scene.add(camera);
 
   const renderer = new WebGLRenderer({
     canvas: canvas.value,
@@ -89,7 +89,7 @@ onMounted(() => {
     controls.update();
 
     // Render
-    renderer.render(sceene, camera);
+    renderer.render(scene, camera);
     window.requestAnimationFrame(tick);
   };
   tick();
