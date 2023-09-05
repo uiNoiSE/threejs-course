@@ -9,7 +9,8 @@ import {
   Scene,
   WebGLRenderer,
 } from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
 const sizes = {
   width: 800,
   height: 600,
