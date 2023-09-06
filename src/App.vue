@@ -10,6 +10,7 @@ import Lesson10 from './components/Lesson10.vue';
 import Lesson11 from './components/Lesson11.vue';
 import Lesson12 from './components/Lesson12.vue';
 import Lesson13 from './components/Lesson13.vue';
+import Lesson15 from './components/Lesson15.vue';
 
 const lessons = [
   {
@@ -52,9 +53,13 @@ const lessons = [
     name: '13 - 3D Text',
     component: Lesson13,
   },
+  {
+    name: '15 - Lights',
+    component: Lesson15,
+  },
 ];
 
-const chosenLesson = ref(9);
+const chosenLesson = ref(10);
 const isMenuOpen = ref(false);
 
 const chooseLesson = (lesson) => {
@@ -95,7 +100,7 @@ const toggleMenu = (state) => {
   &__menu-button {
     position: fixed;
     z-index: 20;
-    top: 0;
+    bottom: 0;
     right: 0;
     background-color: #555;
   }

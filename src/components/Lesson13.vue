@@ -15,21 +15,22 @@ AxesHelper,
 import { FontLoader } from 'three/addons/loaders/FontLoader.js';
 import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { useResize, handleMousemove } from '../mixins/global';
+import { useResize, useSizes, handleMousemove } from '../mixins/global';
 import GUI from 'lil-gui';
 
 const handleResize = useResize();
+const sizes = useSizes();
 const canvas = ref(null);
 
 onBeforeMount(() => {
   window.addEventListener('mousemove', (e) => handleMousemove(e));
-  window.addEventListener('resize', () => handleResize(camera, renderer));
 });
 
 onMounted(() => {
   /**
    * Base
    */
+  window.addEventListener('resize', () => handleResize(camera, renderer));
 
   // Debug
   // const gui = new GUI();
@@ -57,8 +58,8 @@ onMounted(() => {
     const textGeometry = new TextGeometry('Three.js', {
       font,
       size: 0.5,
-      height: 0.2,
-      curveSegments: 5,
+      height: 0.1,
+      curveSegments: 24,
       bevelEnabled: true,
       bevelThickness: 0.03,
       bevelSize: 0.02,
@@ -79,12 +80,12 @@ onMounted(() => {
 
     const donutGeometry = new TorusGeometry(0.3, 0.2, 20, 45);
 
-    for (let i = 0; i < 1000; i++) {
+    for (let i = 0; i < 3000; i++) {
       const donut = new Mesh(donutGeometry, material);
 
-      donut.position.x = (Math.random() - 0.5) * 30;
-      donut.position.y = (Math.random() - 0.5) * 20;
-      donut.position.z = (Math.random() - 0.5) * 20;
+      donut.position.x = (Math.random() - 0.5) * 100;
+      donut.position.y = (Math.random() - 0.5) * 30;
+      donut.position.z = (Math.random() - 0.5) * 30;
 
       donut.rotation.x = Math.random() * Math.PI;
       donut.rotation.y = Math.random() * Math.PI;
@@ -100,10 +101,7 @@ onMounted(() => {
   /**
    * Sizes
    */
-  const sizes = {
-    width: window.innerWidth,
-    height: window.innerHeight,
-  };
+  const aspectRatio = sizes.width.value / sizes.height.value;
 
   /**
    * Camera
@@ -111,7 +109,7 @@ onMounted(() => {
   // Base camera
   const camera = new PerspectiveCamera(
     75,
-    sizes.width / sizes.height,
+    aspectRatio,
     0.1,
     100
   );
@@ -130,7 +128,7 @@ onMounted(() => {
   const renderer = new WebGLRenderer({
     canvas: canvas,
   });
-  renderer.setSize(sizes.width, sizes.height);
+  renderer.setSize(sizes.width.value, sizes.height.value);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
   /**
@@ -141,8 +139,8 @@ onMounted(() => {
   const tick = () => {
     const elapsedTime = clock.getElapsedTime();
     // Update objects
-    camera.position.x = Math.cos(elapsedTime);
-    camera.position.y = Math.sin(elapsedTime);
+    camera.position.x = Math.tan(elapsedTime / 3);
+    camera.position.z = Math.sin(elapsedTime / 4);
 
     // Update controls
     controls.update();
