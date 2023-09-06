@@ -141,7 +141,6 @@ onMounted(() => {
   // Debug
   const gui = new GUI();
   gui.add(material, 'roughness').min(0).max(1).step(0.01).name('Roughness');
-  gui.add(spotLight.target.position, 'x').min(0).max(1).step(0.01).name('Roughness');
 
   /**
    * Renderer
