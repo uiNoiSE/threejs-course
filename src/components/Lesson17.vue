@@ -19,7 +19,7 @@ import {
   Fog,
   Float32BufferAttribute,
   RepeatWrapping,
-PCFSoftShadowMap,
+  PCFSoftShadowMap,
 } from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { useResize, useSizes, handleMousemove } from '../mixins/global';
@@ -68,19 +68,19 @@ onMounted(() => {
     '/textures/door/roughness.jpg'
   );
 
-  const bricksColorTexture = textureLoader.load('/16/bricks/color.jpg');
+  const bricksColorTexture = textureLoader.load('/17/bricks/color.jpg');
   const bricksambientOcclusionTexture = textureLoader.load(
-    '/16/bricks/ambientOcclusion.jpg'
+    '/17/bricks/ambientOcclusion.jpg'
   );
-  const bricksNormalTexture = textureLoader.load('/16/bricks/normal.jpg');
-  const bricksRoughnessTexture = textureLoader.load('/16/bricks/roughness.jpg');
+  const bricksNormalTexture = textureLoader.load('/17/bricks/normal.jpg');
+  const bricksRoughnessTexture = textureLoader.load('/17/bricks/roughness.jpg');
 
-  const grassColorTexture = textureLoader.load('/16/grass/color.jpg');
+  const grassColorTexture = textureLoader.load('/17/grass/color.jpg');
   const grassambientOcclusionTexture = textureLoader.load(
-    '/16/grass/ambientOcclusion.jpg'
+    '/17/grass/ambientOcclusion.jpg'
   );
-  const grassNormalTexture = textureLoader.load('/16/grass/normal.jpg');
-  const grassRoughnessTexture = textureLoader.load('/16/grass/roughness.jpg');
+  const grassNormalTexture = textureLoader.load('/17/grass/normal.jpg');
+  const grassRoughnessTexture = textureLoader.load('/17/grass/roughness.jpg');
 
   grassColorTexture.repeat.set(8, 8);
   grassambientOcclusionTexture.repeat.set(8, 8);
@@ -271,7 +271,7 @@ onMounted(() => {
   renderer.shadowMap.type = PCFSoftShadowMap;
 
   moonLight.castShadow = true;
-  
+
   doorLight.castShadow = true;
   doorLight.shadow.mapSize.width = 256;
   doorLight.shadow.mapSize.height = 256;

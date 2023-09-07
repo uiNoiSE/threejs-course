@@ -13,6 +13,7 @@ import Lesson13 from './components/Lesson13.vue';
 import Lesson15 from './components/Lesson15.vue';
 import Lesson16 from './components/Lesson16.vue';
 import Lesson17 from './components/Lesson17.vue';
+import Lesson18 from './components/Lesson18.vue';
 
 const lessons = [
   {
@@ -67,9 +68,13 @@ const lessons = [
     name: '17 - Haunted house',
     component: Lesson17,
   },
+  {
+    name: '18 - Particlies',
+    component: Lesson18,
+  },
 ];
 
-const chosenLesson = ref(12);
+const chosenLesson = ref(13);
 const isMenuOpen = ref(false);
 
 const chooseLesson = (lesson) => {
