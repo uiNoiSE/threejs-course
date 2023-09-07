@@ -6,10 +6,6 @@ import {
   Scene,
   WebGLRenderer,
   TextureLoader,
-  Mesh,
-  BoxGeometry,
-  MeshBasicMaterial,
-  SphereGeometry,
   PointsMaterial,
   Points,
   BufferGeometry,
@@ -18,7 +14,6 @@ import {
 } from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { useResize, useSizes, handleMousemove } from '../mixins/global';
-import GUI from 'lil-gui';
 
 const handleResize = useResize();
 const sizes = useSizes();
@@ -82,10 +77,6 @@ onMounted(() => {
   scene.add(particles);
 
   /**
-   * Lights
-   */
-
-  /**
    * Camera
    */
   const aspectRatio = sizes.width.value / sizes.height.value;
@@ -122,7 +113,7 @@ onMounted(() => {
       const i3 = i * 3;
       const x = particlesGeometry.attributes.position.array[i3];
       particlesGeometry.attributes.position.array[i3 + 1] =
-        Math.sin(Math.cos(elapsedTime + x));
+        Math.sin(elapsedTime + x);
     }
     particlesGeometry.attributes.position.needsUpdate = true;
 

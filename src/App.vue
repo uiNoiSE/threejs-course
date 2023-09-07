@@ -14,6 +14,7 @@ import Lesson15 from './components/Lesson15.vue';
 import Lesson16 from './components/Lesson16.vue';
 import Lesson17 from './components/Lesson17.vue';
 import Lesson18 from './components/Lesson18.vue';
+import Lesson19 from './components/Lesson19.vue';
 
 const lessons = [
   {
@@ -72,9 +73,13 @@ const lessons = [
     name: '18 - Particlies',
     component: Lesson18,
   },
+  {
+    name: '19 - Galaxy generator',
+    component: Lesson19,
+  },
 ];
 
-const chosenLesson = ref(13);
+const chosenLesson = ref(14);
 const isMenuOpen = ref(false);
 
 const chooseLesson = (lesson) => {
