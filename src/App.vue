@@ -15,6 +15,7 @@ import Lesson16 from './components/Lesson16.vue';
 import Lesson17 from './components/Lesson17.vue';
 import Lesson18 from './components/Lesson18.vue';
 import Lesson19 from './components/Lesson19.vue';
+import Lesson20 from './components/Lesson20.vue';
 
 const lessons = [
   {
@@ -77,9 +78,13 @@ const lessons = [
     name: '19 - Galaxy generator',
     component: Lesson19,
   },
+  {
+    name: '20 - Scroll Based Animation',
+    component: Lesson20,
+  },
 ];
 
-const chosenLesson = ref(14);
+const chosenLesson = ref(15);
 const isMenuOpen = ref(false);
 
 const chooseLesson = (lesson) => {
@@ -122,7 +127,27 @@ const toggleMenu = (state) => {
     z-index: 20;
     bottom: 0;
     right: 0;
+    padding: 12px 18px;
+    border: 1px solid transparent;
     background-color: #555;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    transition: border-color 0.25s;
+
+    @media @tablet {
+      font-size: 32px;
+    }
+
+    @media @hd {
+      font-size: 24px;
+    }
+
+    @media @desktop {
+      font-size: 18px;
+    }
   }
 
   &__list {
@@ -143,6 +168,7 @@ const toggleMenu = (state) => {
     list-style: none;
     font-family: sans-serif;
     font-weight: 500;
+    color: @c-white;
     cursor: pointer;
   }
 }

@@ -1,0 +1,13 @@
+.hover(@params) {
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      @params();
+    }
+  }
+
+  @media (hover: none) {
+    &:active {
+      @params();
+    }
+  }
+}
