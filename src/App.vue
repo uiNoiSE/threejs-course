@@ -16,6 +16,7 @@ import Lesson17 from './components/Lesson17.vue';
 import Lesson18 from './components/Lesson18.vue';
 import Lesson19 from './components/Lesson19.vue';
 import Lesson20 from './components/Lesson20.vue';
+import Lesson21 from './components/Lesson21.vue';
 
 const lessons = [
   {
@@ -82,9 +83,13 @@ const lessons = [
     name: '20 - Scroll Based Animation',
     component: Lesson20,
   },
+  {
+    name: '21 - Physics',
+    component: Lesson21,
+  },
 ];
 
-const chosenLesson = ref(15);
+const chosenLesson = ref(16);
 const isMenuOpen = ref(false);
 
 const chooseLesson = (lesson) => {
@@ -115,9 +120,7 @@ const toggleMenu = (state) => {
     </ul>
   </Transition>
 
-  <KeepAlive>
-    <component :is="lessons[chosenLesson].component" />
-  </KeepAlive>
+  <component :is="lessons[chosenLesson].component" />
 </template>
 
 <style lang="less">
@@ -162,6 +165,7 @@ const toggleMenu = (state) => {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    overflow-y: auto;
   }
 
   &__list-item {
