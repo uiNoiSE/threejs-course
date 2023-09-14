@@ -14,13 +14,12 @@
     "vue": "^3.3.4"
   },
   "devDependencies": {
-    "@types/cannon": "^0.1.10",
     "@types/three": "^0.156.0",
     "@vitejs/plugin-vue": "^4.2.3",
     "cannon-es": "^0.20.0",
     "gsap": "^3.12.2",
     "lil-gui": "^0.18.2",
-    "postcss": "8.0.0",
+    "postcss": "^8.4.29",
     "postcss-pxtorem": "^6.0.0",
     "stats.js": "^0.17.0",
     "vite": "^4.4.5"
