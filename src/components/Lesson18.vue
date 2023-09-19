@@ -1,19 +1,19 @@
 <script setup>
 import { onBeforeMount, onMounted, onUnmounted, ref } from 'vue';
 import {
+  AdditiveBlending,
+  BufferAttribute,
+  BufferGeometry,
   Clock,
   PerspectiveCamera,
-  Scene,
-  WebGLRenderer,
-  TextureLoader,
-  PointsMaterial,
   Points,
-  BufferGeometry,
-  BufferAttribute,
-  AdditiveBlending,
+  PointsMaterial,
+  Scene,
+  TextureLoader,
+  WebGLRenderer,
 } from 'three';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { useResize, useSizes, handleMousemove } from '../mixins/global';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { handleMousemove, useResize, useSizes } from '../mixins/global';
 
 const handleResize = useResize();
 const sizes = useSizes();
@@ -24,14 +24,8 @@ onBeforeMount(() => {
 });
 
 onMounted(() => {
-  /**
-   * Base
-   */
+  canvas.value = document.querySelector('canvas.three');
   window.addEventListener('resize', () => handleResize(camera, renderer));
-  // const gui = new GUI();
-
-  // Canvas
-  const canvas = document.querySelector('canvas.three');
 
   // Scene
   const scene = new Scene();
@@ -87,14 +81,14 @@ onMounted(() => {
   scene.add(camera);
 
   // Controls
-  const controls = new OrbitControls(camera, canvas);
+  const controls = new OrbitControls(camera, canvas.value);
   controls.enableDamping = true;
 
   /**
    * Renderer
    */
   const renderer = new WebGLRenderer({
-    canvas: canvas,
+    canvas: canvas.value,
   });
 
   renderer.setSize(sizes.width.value, sizes.height.value);
@@ -112,8 +106,7 @@ onMounted(() => {
     for (let i = 0; i < count; i++) {
       const i3 = i * 3;
       const x = particlesGeometry.attributes.position.array[i3];
-      particlesGeometry.attributes.position.array[i3 + 1] =
-        Math.sin(elapsedTime + x);
+      particlesGeometry.attributes.position.array[i3 + 1] = Math.sin(elapsedTime + x);
     }
     particlesGeometry.attributes.position.needsUpdate = true;
 

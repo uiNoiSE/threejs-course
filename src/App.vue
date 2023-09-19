@@ -1,100 +1,105 @@
 <script setup>
-import { ref } from "vue";
-import Lesson03 from "./components/Lesson03.vue";
-import Lesson05 from "./components/Lesson05.vue";
-import Lesson06 from "./components/Lesson06.vue";
-import Lesson07 from "./components/Lesson07.vue";
-import Lesson08 from "./components/Lesson08.vue";
-import Lesson09 from "./components/Lesson09.vue";
-import Lesson10 from "./components/Lesson10.vue";
-import Lesson11 from "./components/Lesson11.vue";
-import Lesson12 from "./components/Lesson12.vue";
-import Lesson13 from "./components/Lesson13.vue";
-import Lesson15 from "./components/Lesson15.vue";
-import Lesson16 from "./components/Lesson16.vue";
-import Lesson17 from "./components/Lesson17.vue";
-import Lesson18 from "./components/Lesson18.vue";
-import Lesson19 from "./components/Lesson19.vue";
-import Lesson20 from "./components/Lesson20.vue";
-import Lesson21 from "./components/Lesson21.vue";
-import Lesson22 from "./components/Lesson22.vue";
+import { ref } from 'vue';
+import Lesson03 from './components/Lesson03.vue';
+import Lesson05 from './components/Lesson05.vue';
+import Lesson06 from './components/Lesson06.vue';
+import Lesson07 from './components/Lesson07.vue';
+import Lesson08 from './components/Lesson08.vue';
+import Lesson09 from './components/Lesson09.vue';
+import Lesson10 from './components/Lesson10.vue';
+import Lesson11 from './components/Lesson11.vue';
+import Lesson12 from './components/Lesson12.vue';
+import Lesson13 from './components/Lesson13.vue';
+import Lesson15 from './components/Lesson15.vue';
+import Lesson16 from './components/Lesson16.vue';
+import Lesson17 from './components/Lesson17.vue';
+import Lesson18 from './components/Lesson18.vue';
+import Lesson19 from './components/Lesson19.vue';
+import Lesson20 from './components/Lesson20.vue';
+import Lesson21 from './components/Lesson21.vue';
+import Lesson22 from './components/Lesson22.vue';
+import Lesson23 from './components/Lesson23.vue';
 
 const lessons = [
   {
-    name: "03 - Basic Scene",
+    name: '03 - Basic Scene',
     component: Lesson03,
   },
   {
-    name: "05 - Transform Object",
+    name: '05 - Transform Object',
     component: Lesson05,
   },
   {
-    name: "06 - Animations",
+    name: '06 - Animations',
     component: Lesson06,
   },
   {
-    name: "07 - Cameras",
+    name: '07 - Cameras',
     component: Lesson07,
   },
   {
-    name: "08 - Fullscreen and resizing",
+    name: '08 - Fullscreen and resizing',
     component: Lesson08,
   },
   {
-    name: "09 - Geometries",
+    name: '09 - Geometries',
     component: Lesson09,
   },
   {
-    name: "10 - Debug UI",
+    name: '10 - Debug UI',
     component: Lesson10,
   },
   {
-    name: "11 - Textures",
+    name: '11 - Textures',
     component: Lesson11,
   },
   {
-    name: "12 - Materials",
+    name: '12 - Materials',
     component: Lesson12,
   },
   {
-    name: "13 - 3D Text",
+    name: '13 - 3D Text',
     component: Lesson13,
   },
   {
-    name: "15 - Lights",
+    name: '15 - Lights',
     component: Lesson15,
   },
   {
-    name: "16 - Shadows",
+    name: '16 - Shadows',
     component: Lesson16,
   },
   {
-    name: "17 - Haunted house",
+    name: '17 - Haunted house',
     component: Lesson17,
   },
   {
-    name: "18 - Particles",
+    name: '18 - Particles',
     component: Lesson18,
   },
   {
-    name: "19 - Galaxy generator",
+    name: '19 - Galaxy generator',
     component: Lesson19,
   },
   {
-    name: "20 - Scroll Based Animation",
+    name: '20 - Scroll Based Animation',
     component: Lesson20,
   },
   {
-    name: "21 - Physics",
+    name: '21 - Physics',
     component: Lesson21,
   },
   {
-    name: "22 - Imported Models",
+    name: '22 - Imported Models',
     component: Lesson22,
+  },
+  {
+    name: '23 - Ray casting',
+    component: Lesson23,
   },
 ];
 
-const chosenLesson = ref(17);
+const chosenLesson = ref(18);
 const isMenuOpen = ref(false);
 
 const chooseLesson = (lesson) => {
@@ -111,11 +116,7 @@ const toggleMenu = () => {
   <button @click="toggleMenu()" class="app__menu-button">Меню</button>
   <Transition name="fade">
     <ul v-if="isMenuOpen" class="app__list">
-      <li
-        class="app__list-item"
-        v-for="(lesson, index) in lessons"
-        @click="chooseLesson(index)"
-      >
+      <li class="app__list-item" v-for="(lesson, index) in lessons" @click="chooseLesson(index)">
         {{ lesson.name }}
       </li>
     </ul>
@@ -125,7 +126,7 @@ const toggleMenu = () => {
 </template>
 
 <style lang="less">
-@import "@/assets/styles/main.less";
+@import '@/assets/styles/main.less';
 
 .app {
   &__menu-button {

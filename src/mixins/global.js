@@ -1,16 +1,14 @@
-import { ref } from 'vue';
+import { ref } from "vue";
 
 export function useSizes() {
-  const sizes = {
+  return {
     width: ref(window.innerWidth),
     height: ref(window.innerHeight),
   };
-
-  return sizes;
 }
 
 export function useResize() {
-  const handleResize = (camera, renderer) => {
+  return (camera, renderer) => {
     useSizes().width.value = window.innerWidth;
     useSizes().height.value = window.innerHeight;
     camera.aspect = useSizes().width.value / useSizes().height.value;
@@ -18,8 +16,6 @@ export function useResize() {
     renderer.setSize(useSizes().width.value, useSizes().height.value);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   };
-
-  return handleResize;
 }
 
 export function handleFullscreen(canvas) {
@@ -39,7 +35,7 @@ export function handleFullscreen(canvas) {
       document.webkitExitFullscreen();
     }
   }
-  return fullscreenElement
+  return fullscreenElement;
 }
 
 export function handleMousemove(e) {

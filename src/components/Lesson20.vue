@@ -26,6 +26,7 @@ import GUI from 'lil-gui';
 const handleResize = useResize();
 const sizes = useSizes();
 const canvas = ref(null);
+const gui = new GUI();
 const currentSection = ref(0);
 const scrollY = ref(0);
 const cursor = ref({
@@ -39,6 +40,7 @@ onBeforeMount(() => {
 });
 
 onMounted(() => {
+  canvas.value = document.querySelector('canvas.three');
   window.addEventListener('mousemove', (e) => {
     cursor.value.x = e.clientX / sizes.width.value - 0.5;
     cursor.value.y = e.clientY / sizes.height.value - 0.5;
@@ -65,7 +67,6 @@ onMounted(() => {
    * Base
    */
   window.addEventListener('resize', () => handleResize(camera, renderer));
-  const gui = new GUI();
 
   const parameters = {
     materialColor: '#ffeded',
@@ -75,9 +76,6 @@ onMounted(() => {
     material.color.set(parameters.materialColor);
     particlesMaterial.color.set(parameters.materialColor);
   });
-
-  // Canvas
-  const canvas = document.querySelector('canvas.three');
 
   // Scene
   const scene = new Scene();
@@ -99,7 +97,7 @@ onMounted(() => {
   const mesh2 = new Mesh(new ConeGeometry(1, 2, 32), material);
   const mesh3 = new Mesh(new TorusKnotGeometry(0.8, 0.35, 100, 16), material);
 
-  mesh2.position.y = -objectDistance * 1;
+  mesh2.position.y = -objectDistance;
   mesh3.position.y = -objectDistance * 2;
 
   mesh1.position.x = 2;
@@ -117,9 +115,7 @@ onMounted(() => {
 
   for (let i = 0; i < particlesCount; i++) {
     positions[i * 3] = (Math.random() - 0.5) * 10;
-    positions[i * 3 + 1] =
-      objectDistance * 0.4 -
-      Math.random() * objectDistance * sectionMeshes.length;
+    positions[i * 3 + 1] = objectDistance * 0.4 - Math.random() * objectDistance * sectionMeshes.length;
     positions[i * 3 + 2] = (Math.random() - 0.5) * 10;
   }
   const particlesGeometry = new BufferGeometry();
@@ -159,7 +155,7 @@ onMounted(() => {
    * Renderer
    */
   const renderer = new WebGLRenderer({
-    canvas: canvas,
+    canvas: canvas.value,
     alpha: true,
   });
 
@@ -182,10 +178,8 @@ onMounted(() => {
       mesh.rotation.y = elapsedTime * 0.12;
     }
     camera.position.y = (-scrollY.value / sizes.height.value) * objectDistance;
-    cameraGroup.position.x +=
-      (cursor.value.x - cameraGroup.position.x) * 2.5 * deltaTime;
-    cameraGroup.position.y +=
-      (-cursor.value.y - cameraGroup.position.y) * 2.5 * deltaTime;
+    cameraGroup.position.x += (cursor.value.x - cameraGroup.position.x) * 2.5 * deltaTime;
+    cameraGroup.position.y += (-cursor.value.y - cameraGroup.position.y) * 2.5 * deltaTime;
 
     // Render
     renderer.render(scene, camera);
@@ -199,6 +193,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   canvas.value = null;
+  gui.destroy();
 });
 </script>
 

@@ -2,44 +2,39 @@
 import { onBeforeMount, onMounted, onUnmounted, ref } from 'vue';
 import {
   AmbientLight,
-  Clock,
   CameraHelper,
+  Clock,
   DirectionalLight,
   DirectionalLightHelper,
   Mesh,
+  MeshBasicMaterial,
   MeshStandardMaterial,
+  PCFSoftShadowMap,
   PerspectiveCamera,
   PlaneGeometry,
+  PointLight,
   Scene,
   SphereGeometry,
-  WebGLRenderer,
-  PCFSoftShadowMap,
   SpotLight,
-  PointLight,
   TextureLoader,
-  MeshBasicMaterial,
+  WebGLRenderer,
 } from 'three';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { useResize, useSizes, handleMousemove } from '../mixins/global';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { handleMousemove, useResize, useSizes } from '../mixins/global';
 import GUI from 'lil-gui';
 
 const handleResize = useResize();
 const sizes = useSizes();
 const canvas = ref(null);
+const gui = new GUI();
 
 onBeforeMount(() => {
   window.addEventListener('mousemove', (e) => handleMousemove(e));
 });
 
 onMounted(() => {
-  /**
-   * Base
-   */
+  canvas.value = document.querySelector('canvas.three');
   window.addEventListener('resize', () => handleResize(camera, renderer));
-  const gui = new GUI();
-
-  // Canvas
-  const canvas = document.querySelector('canvas.three');
 
   // Scene
   const scene = new Scene();
@@ -48,7 +43,7 @@ onMounted(() => {
    * Textures
    */
   const textureLoader = new TextureLoader();
-  const bakedShadow = textureLoader.load('/textures/bakedShadow.jpg');
+  // const bakedShadow = textureLoader.load('/textures/bakedShadow.jpg');
   const simpleShadow = textureLoader.load('/textures/simpleShadow.jpg');
 
   /**
@@ -56,27 +51,21 @@ onMounted(() => {
    */
   // Ambient light
   const ambientLight = new AmbientLight(0xffffff, 0.3);
-  gui.add(ambientLight, 'intensity').min(0).max(1).step(0.001);
+  gui.add(ambientLight, 'intensity', 0, 1, 0.001).name('Ambient');
   scene.add(ambientLight);
 
   // Directional light
   const directionalLight = new DirectionalLight(0xffffff, 0.3);
   scene.add(directionalLight);
-  const directionalLightHelper = new DirectionalLightHelper(
-    directionalLight,
-    0.2
-  );
+
+  const directionalLightHelper = new DirectionalLightHelper(directionalLight, 0.2);
   directionalLight.position.set(2, 2, -1);
-  gui.add(directionalLight, 'intensity').min(0).max(1).step(0.001);
-  gui.add(directionalLight.position, 'x').min(-5).max(5).step(0.001);
-  gui.add(directionalLight.position, 'y').min(-5).max(5).step(0.001);
-  gui.add(directionalLight.position, 'z').min(-5).max(5).step(0.001);
-  gui.add(directionalLight.shadow.camera, 'far').min(-100).max(100).step(0.001);
-  gui
-    .add(directionalLight.shadow.camera, 'near')
-    .min(-100)
-    .max(100)
-    .step(0.001);
+  gui.add(directionalLight, 'intensity', 0, 1, 0.001).name('Directional light');
+  gui.add(directionalLight.position, 'x', -5, 5, 0.001);
+  gui.add(directionalLight.position, 'y', -5, 5, 0.001);
+  gui.add(directionalLight.position, 'z', -5, 5, 0.001);
+  gui.add(directionalLight.shadow.camera, 'far', -100, 100, 0.001).name('Far');
+  gui.add(directionalLight.shadow.camera, 'near', -100, 100, 0.001).name('Near');
 
   directionalLight.castShadow = false;
   directionalLight.shadow.mapSize.x = 1024;
@@ -91,14 +80,12 @@ onMounted(() => {
   directionalLight.shadow.camera.left = -2;
   // directionalLight.shadow.radius = 10;
 
-  const directionalLightCameraHelper = new CameraHelper(
-    directionalLight.shadow.camera
-  );
+  const directionalLightCameraHelper = new CameraHelper(directionalLight.shadow.camera);
   directionalLightCameraHelper.visible = false;
   scene.add(directionalLightHelper);
   scene.add(directionalLightCameraHelper);
 
-  // Spot light
+  // Spotlight
   const spotLight = new SpotLight('#fff', 4, 0.5, Math.PI * 0.3);
   spotLight.castShadow = false;
   spotLight.position.set(0, 2, 2);
@@ -131,8 +118,8 @@ onMounted(() => {
    */
   const material = new MeshStandardMaterial();
   material.roughness = 0.7;
-  gui.add(material, 'metalness').min(0).max(1).step(0.001);
-  gui.add(material, 'roughness').min(0).max(1).step(0.001);
+  gui.add(material, 'metalness', 0, 1, 0.001).name('Metalness');
+  gui.add(material, 'roughness', 0, 1, 0.001).name('Roughness');
 
   /**
    * Objects
@@ -155,7 +142,7 @@ onMounted(() => {
       color: '#000',
       transparent: true,
       alphaMap: simpleShadow,
-    })
+    }),
   );
   sphereShadow.rotation.x = -Math.PI * 0.5;
   sphereShadow.position.y = plane.position.y + 0.01;
@@ -168,20 +155,18 @@ onMounted(() => {
    */
   // Base camera
   const camera = new PerspectiveCamera(75, aspectRatio, 0.1, 100);
-  camera.position.x = 1;
-  camera.position.y = 1;
-  camera.position.z = 3;
+  camera.position.set(1, 1, 3);
   scene.add(camera);
 
   // Controls
-  const controls = new OrbitControls(camera, canvas);
+  const controls = new OrbitControls(camera, canvas.value);
   controls.enableDamping = true;
 
   /**
    * Renderer
    */
   const renderer = new WebGLRenderer({
-    canvas: canvas,
+    canvas: canvas.value,
   });
   renderer.shadowMap.enabled = false;
   renderer.shadowMap.type = PCFSoftShadowMap;
@@ -202,7 +187,7 @@ onMounted(() => {
 
     sphereShadow.position.x = sphere.position.x;
     sphereShadow.position.z = sphere.position.z;
-    sphereShadow.material.opacity = (1 - Math.abs(sphere.position.y))
+    sphereShadow.material.opacity = 1 - Math.abs(sphere.position.y);
 
     // Update controls
     controls.update();
@@ -219,6 +204,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   canvas.value = null;
+  gui.destroy();
 });
 </script>
 

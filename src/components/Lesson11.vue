@@ -12,10 +12,8 @@ import {
   WebGLRenderer,
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { useResize, useSizes, handleMousemove } from '../mixins/global';
-import gsap from 'gsap';
+import { handleMousemove, useResize, useSizes } from '../mixins/global';
 import GUI from 'lil-gui';
-import { Power0 } from 'gsap';
 
 const handleResize = useResize();
 const sizes = useSizes();
@@ -44,14 +42,12 @@ onMounted(() => {
   const textureLoader = new TextureLoader(loadingManager);
   const colorTexture = textureLoader.load('/textures/minecraft.png');
   // const colorTexture = textureLoader.load('/textures/door/color.jpg');
-  const alphaTexture = textureLoader.load('/textures/door/alpha.jpg');
-  const heightTexture = textureLoader.load('/textures/door/height.jpg');
-  const normalTexture = textureLoader.load('/textures/door/normal.jpg');
-  const ambientOcclusionTexture = textureLoader.load(
-    '/textures/door/ambientOcclusion.jpg'
-  );
-  const metalnessTexture = textureLoader.load('/textures/door/metalness.jpg');
-  const roughnessTexture = textureLoader.load('/textures/door/roughness.jpg');
+  // const alphaTexture = textureLoader.load('/textures/door/alpha.jpg');
+  // const heightTexture = textureLoader.load('/textures/door/height.jpg');
+  // const normalTexture = textureLoader.load('/textures/door/normal.jpg');
+  // const ambientOcclusionTexture = textureLoader.load('/textures/door/ambientOcclusion.jpg');
+  // const metalnessTexture = textureLoader.load('/textures/door/metalness.jpg');
+  // const roughnessTexture = textureLoader.load('/textures/door/roughness.jpg');
 
   colorTexture.generateMipmaps = false;
   colorTexture.magFilter = NearestFilter;
@@ -83,24 +79,24 @@ onMounted(() => {
         duration: 0.3,
       });
     },
-    reset: () => {
-      gsap.to(mesh.rotation, {
-        x: 0,
-        y: 0,
-        duration: 1,
-      });
-      gsap.to(
-        camera.position,
-        {
-          x: 0,
-          y: 0,
-          z: 3,
-          duration: 1,
-          ease: Power0,
-        },
-        '<'
-      );
-    },
+    // reset: () => {
+    //   gsap.to(mesh.rotation, {
+    //     x: 0,
+    //     y: 0,
+    //     duration: 1,
+    //   });
+    //   gsap.to(
+    //     camera.position,
+    //     {
+    //       x: 0,
+    //       y: 0,
+    //       z: 3,
+    //       duration: 1,
+    //       ease: Power0,
+    //     },
+    //     '<',
+    //   );
+    // },
   };
 
   const aspectRatio = sizes.width.value / sizes.height.value;
@@ -148,6 +144,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   canvas.value = null;
+  gui.destroy();
 });
 </script>
 

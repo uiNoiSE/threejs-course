@@ -9,13 +9,8 @@ import {
   Scene,
   WebGLRenderer,
 } from 'three';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import {
-  useResize,
-  useSizes,
-  handleFullscreen,
-  handleMousemove,
-} from '../mixins/global';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { handleFullscreen, handleMousemove, useResize, useSizes } from '../mixins/global';
 
 const handleResize = useResize();
 const sizes = useSizes();

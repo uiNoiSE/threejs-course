@@ -1,5 +1,5 @@
 <script setup>
-import { onBeforeMount, onMounted, ref } from "vue";
+import { onBeforeMount, onMounted, onUnmounted, ref } from 'vue';
 import {
   AmbientLight,
   BoxGeometry,
@@ -14,37 +14,28 @@ import {
   Scene,
   SphereGeometry,
   WebGLRenderer,
-} from "three";
-import { OrbitControls } from "three/addons/controls/OrbitControls.js";
-import { useResize, useSizes } from "../mixins/global";
-import {
-  World,
-  SAPBroadphase,
-  Material,
-  ContactMaterial,
-  Plane,
-  Sphere,
-  Body,
-  Box,
-  Vec3,
-} from "cannon-es";
-import GUI from "lil-gui";
-import Stats from "stats.js";
+} from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { useResize, useSizes } from '../mixins/global';
+import { Body, Box, ContactMaterial, Material, Plane, SAPBroadphase, Sphere, Vec3, World } from 'cannon-es';
+import GUI from 'lil-gui';
+import Stats from 'stats.js';
 
 const handleResize = useResize();
 const sizes = useSizes();
+const gui = new GUI();
+const canvas = ref(null);
 const oldElapsedTime = ref(0);
 const props = {
   gravity: -9.8,
 };
 
 onBeforeMount(() => {
-  document.querySelector("html").style.backgroundColor = "#000";
+  document.querySelector('html').style.backgroundColor = '#000';
 });
 
 onMounted(() => {
-  // Canvas
-  const canvas = document.querySelector("canvas.three");
+  canvas.value = document.querySelector('canvas.three');
   const stats = new Stats();
   document.body.appendChild(stats.dom);
   stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
@@ -52,8 +43,7 @@ onMounted(() => {
   /**
    * Base
    */
-  window.addEventListener("resize", () => handleResize(camera, renderer));
-  const gui = new GUI();
+  window.addEventListener('resize', () => handleResize(camera, renderer));
 
   // Scene
   const scene = new Scene();
@@ -61,7 +51,7 @@ onMounted(() => {
   /**
    * Sounds
    */
-  const hitSound = new Audio("/21/sounds/hit.mp3");
+  const hitSound = new Audio('/21/sounds/hit.mp3');
 
   const playHitSound = (collision) => {
     const impactStrength = collision.contact.getImpactVelocityAlongNormal();
@@ -78,12 +68,12 @@ onMounted(() => {
    */
   const cubeTextureLoader = new CubeTextureLoader();
   const environmentMapTexture = cubeTextureLoader.load([
-    "/21/textures/environmentMaps/0/px.png",
-    "/21/textures/environmentMaps/0/nx.png",
-    "/21/textures/environmentMaps/0/py.png",
-    "/21/textures/environmentMaps/0/ny.png",
-    "/21/textures/environmentMaps/0/pz.png",
-    "/21/textures/environmentMaps/0/nz.png",
+    '/21/textures/environmentMaps/0/px.png',
+    '/21/textures/environmentMaps/0/nx.png',
+    '/21/textures/environmentMaps/0/py.png',
+    '/21/textures/environmentMaps/0/ny.png',
+    '/21/textures/environmentMaps/0/pz.png',
+    '/21/textures/environmentMaps/0/nz.png',
   ]);
 
   /**
@@ -95,12 +85,11 @@ onMounted(() => {
   world.gravity.set(0, props.gravity, 0);
 
   // Materials
-  const defaultMaterial = new Material("default");
-  const defaultContactMaterial = new ContactMaterial(
-    defaultMaterial,
-    defaultMaterial,
-    { friction: 0.1, restitution: 0.3 },
-  );
+  const defaultMaterial = new Material('default');
+  const defaultContactMaterial = new ContactMaterial(defaultMaterial, defaultMaterial, {
+    friction: 0.1,
+    restitution: 0.3,
+  });
   world.addContactMaterial(defaultContactMaterial);
   world.defaultContactMaterial = defaultContactMaterial;
 
@@ -120,7 +109,7 @@ onMounted(() => {
   const floor = new Mesh(
     new PlaneGeometry(10, 10),
     new MeshStandardMaterial({
-      color: "#777777",
+      color: '#777777',
       metalness: 0.3,
       roughness: 0.4,
       envMap: environmentMapTexture,
@@ -157,14 +146,14 @@ onMounted(() => {
   scene.add(camera);
 
   // Controls
-  const controls = new OrbitControls(camera, canvas);
+  const controls = new OrbitControls(camera, canvas.value);
   controls.enableDamping = true;
 
   /**
    * Renderer
    */
   const renderer = new WebGLRenderer({
-    canvas,
+    canvas: canvas.value,
   });
   renderer.shadowMap.type = PCFSoftShadowMap;
   renderer.shadowMap.enabled = true;
@@ -199,7 +188,7 @@ onMounted(() => {
       material: defaultMaterial,
     });
     body.position.copy(position);
-    body.addEventListener("collide", playHitSound);
+    body.addEventListener('collide', playHitSound);
     world.addBody(body);
 
     objectsToUpdate.push({
@@ -231,7 +220,7 @@ onMounted(() => {
       material: defaultMaterial,
     });
     body.position.copy(position);
-    body.addEventListener("collide", playHitSound);
+    body.addEventListener('collide', playHitSound);
     world.addBody(body);
 
     objectsToUpdate.push({
@@ -257,7 +246,7 @@ onMounted(() => {
     reset: () => {
       for (const object of objectsToUpdate) {
         // Remove body
-        object.body.removeEventListener("collide", playHitSound);
+        object.body.removeEventListener('collide', playHitSound);
         world.removeBody(object.body);
 
         // Remove mesh
@@ -268,10 +257,10 @@ onMounted(() => {
     },
   };
 
-  gui.add(world.gravity, "y").min(-10).max(10).step(1).name("Gravity");
-  gui.add(debugObject, "createSphere").name("Create sphere");
-  gui.add(debugObject, "createBox").name("Create box");
-  gui.add(debugObject, "reset").name("Reset");
+  gui.add(world.gravity, 'y').min(-10).max(10).step(1).name('Gravity');
+  gui.add(debugObject, 'createSphere').name('Create sphere');
+  gui.add(debugObject, 'createBox').name('Create box');
+  gui.add(debugObject, 'reset').name('Reset');
 
   /**
    * Animate
@@ -301,6 +290,11 @@ onMounted(() => {
   };
 
   tick();
+});
+
+onUnmounted(() => {
+  canvas.value = null;
+  gui.destroy();
 });
 </script>
 

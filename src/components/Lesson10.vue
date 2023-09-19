@@ -1,29 +1,21 @@
 <script setup>
 import { onBeforeMount, onMounted, onUnmounted, ref } from 'vue';
-import {
-  BoxGeometry,
-  Mesh,
-  MeshBasicMaterial,
-  PerspectiveCamera,
-  Scene,
-  WebGLRenderer,
-} from 'three';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { useResize, useSizes, handleMousemove } from '../mixins/global';
-import gsap from 'gsap';
+import { BoxGeometry, Mesh, MeshBasicMaterial, PerspectiveCamera, Scene, WebGLRenderer } from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { handleMousemove, useResize, useSizes } from '../mixins/global';
+import gsap, { Power0 } from 'gsap';
 import GUI from 'lil-gui';
-import { Power0 } from 'gsap';
 
 const handleResize = useResize();
 const sizes = useSizes();
 const canvas = ref(null);
+const gui = new GUI();
 
 onBeforeMount(() => {
   window.addEventListener('mousemove', (e) => handleMousemove(e));
 });
 
 onMounted(() => {
-  const gui = new GUI();
   window.addEventListener('resize', () => handleResize(camera, renderer));
   canvas.value = document.querySelector('.three');
   const color = '#ff0000';
@@ -61,7 +53,7 @@ onMounted(() => {
           duration: 1,
           ease: Power0,
         },
-        '<'
+        '<',
       );
     },
   };
@@ -111,6 +103,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   canvas.value = null;
+  gui.destroy();
 });
 </script>
 

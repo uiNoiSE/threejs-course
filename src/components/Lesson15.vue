@@ -1,48 +1,49 @@
 <script setup>
 import { onBeforeMount, onMounted, onUnmounted, ref } from 'vue';
 import {
-  AmbientLight,
+  // AmbientLight,
   AxesHelper,
   BoxGeometry,
   Clock,
+  DirectionalLight,
+  DirectionalLightHelper,
+  HemisphereLight,
+  HemisphereLightHelper,
   Mesh,
   MeshStandardMaterial,
   PerspectiveCamera,
-  TorusGeometry,
   PlaneGeometry,
+  PointLight,
+  PointLightHelper,
+  RectAreaLight,
   Scene,
   SphereGeometry,
-  WebGLRenderer,
-  DirectionalLight,
-  HemisphereLight,
-  PointLight,
-  RectAreaLight,
-  Vector3,
   SpotLight,
-  HemisphereLightHelper,
-  DirectionalLightHelper,
-  PointLightHelper,
   SpotLightHelper,
+  TorusGeometry,
+  Vector3,
+  WebGLRenderer,
 } from 'three';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { RectAreaLightHelper } from 'three/addons/helpers/RectAreaLightHelper.js';
-import { useResize, useSizes, handleMousemove } from '../mixins/global';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { RectAreaLightHelper } from 'three/examples/jsm/helpers/RectAreaLightHelper.js';
+import { handleMousemove, useResize, useSizes } from '../mixins/global';
 import GUI from 'lil-gui';
 
 const handleResize = useResize();
 const sizes = useSizes();
 const canvas = ref(null);
+const gui = new GUI();
 
 onBeforeMount(() => {
   window.addEventListener('mousemove', (e) => handleMousemove(e));
 });
 
 onMounted(() => {
+  canvas.value = document.querySelector('canvas.three');
   /**
    * Base
    */
   window.addEventListener('resize', () => handleResize(camera, renderer));
-  const canvas = document.querySelector('canvas.three');
 
   // Canvas
 
@@ -53,7 +54,7 @@ onMounted(() => {
   scene.add(axesHelper);
 
   /**
-   * Matirial
+   * Material
    */
   const material = new MeshStandardMaterial({
     roughness: 0.4,
@@ -62,7 +63,7 @@ onMounted(() => {
   /**
    * Lights
    */
-  const ambientLight = new AmbientLight('#fff', 0.5);
+  // const ambientLight = new AmbientLight('#fff', 0.5);
   // scene.add(ambientLight);
 
   const directionalLight = new DirectionalLight('#00fffc', 1);
@@ -87,13 +88,10 @@ onMounted(() => {
 
   // Helpers
   const hemisphereLightHelper = new HemisphereLightHelper(hemisphereLight, 0.2);
-  const directionalLightHelper = new DirectionalLightHelper(
-    directionalLight,
-    0.2
-  );
+  const directionalLightHelper = new DirectionalLightHelper(directionalLight, 0.2);
   const pointLightHelper = new PointLightHelper(pointLight, 0.2);
   const spotLightHelper = new SpotLightHelper(spotLight);
-  const rectAreaLightHelper = new RectAreaLightHelper(rectAreaLight)
+  const rectAreaLightHelper = new RectAreaLightHelper(rectAreaLight);
   scene.add(
     spotLight,
     spotLight.target,
@@ -135,18 +133,17 @@ onMounted(() => {
   scene.add(camera);
 
   // Controls
-  const controls = new OrbitControls(camera, canvas);
+  const controls = new OrbitControls(camera, canvas.value);
   controls.enableDamping = true;
 
   // Debug
-  const gui = new GUI();
-  gui.add(material, 'roughness').min(0).max(1).step(0.01).name('Roughness');
+  gui.add(material, 'roughness', 0, 1, 0.01).name('Roughness');
 
   /**
    * Renderer
    */
   const renderer = new WebGLRenderer({
-    canvas: canvas,
+    canvas: canvas.value,
   });
   renderer.setSize(sizes.width.value, sizes.height.value);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -182,6 +179,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   canvas.value = null;
+  gui.destroy();
 });
 </script>
 

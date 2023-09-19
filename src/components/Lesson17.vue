@@ -2,53 +2,47 @@
 import { onBeforeMount, onMounted, onUnmounted, ref } from 'vue';
 import {
   AmbientLight,
+  BoxGeometry,
   Clock,
+  ConeGeometry,
   DirectionalLight,
+  Float32BufferAttribute,
+  Fog,
+  Group,
   Mesh,
   MeshStandardMaterial,
+  PCFSoftShadowMap,
   PerspectiveCamera,
   PlaneGeometry,
-  Scene,
-  WebGLRenderer,
-  TextureLoader,
-  Group,
-  BoxGeometry,
-  ConeGeometry,
-  SphereGeometry,
   PointLight,
-  Fog,
-  Float32BufferAttribute,
   RepeatWrapping,
-  PCFSoftShadowMap,
+  Scene,
+  SphereGeometry,
+  TextureLoader,
+  WebGLRenderer,
 } from 'three';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { useResize, useSizes, handleMousemove } from '../mixins/global';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { handleMousemove, useResize, useSizes } from '../mixins/global';
 import GUI from 'lil-gui';
 
 const handleResize = useResize();
 const sizes = useSizes();
 const canvas = ref(null);
+const gui = new GUI();
 
 onBeforeMount(() => {
   window.addEventListener('mousemove', (e) => handleMousemove(e));
 });
 
 onMounted(() => {
-  /**
-   * Base
-   */
+  canvas.value = document.querySelector('canvas.three');
   window.addEventListener('resize', () => handleResize(camera, renderer));
-  const gui = new GUI();
-
-  // Canvas
-  const canvas = document.querySelector('canvas.three');
 
   // Scene
   const scene = new Scene();
 
   // Fog
-  const fog = new Fog('#262837', 2, 16);
-  scene.fog = fog;
+  scene.fog = new Fog('#262837', 2, 16);
 
   /**
    * Textures
@@ -56,44 +50,34 @@ onMounted(() => {
   const textureLoader = new TextureLoader();
   const doorColorTexture = textureLoader.load('/textures/door/color.jpg');
   const doorAlphaTexture = textureLoader.load('/textures/door/alpha.jpg');
-  const doorAmbientOcclusionTexture = textureLoader.load(
-    '/textures/door/ambientOcclusion.jpg'
-  );
+  const doorAmbientOcclusionTexture = textureLoader.load('/textures/door/ambientOcclusion.jpg');
   const doorHeightTexture = textureLoader.load('/textures/door/height.jpg');
   const doorNormalTexture = textureLoader.load('/textures/door/normal.jpg');
-  const doorMetalnessTexture = textureLoader.load(
-    '/textures/door/metalness.jpg'
-  );
-  const doorRoughnessTexture = textureLoader.load(
-    '/textures/door/roughness.jpg'
-  );
+  const doorMetalnessTexture = textureLoader.load('/textures/door/metalness.jpg');
+  const doorRoughnessTexture = textureLoader.load('/textures/door/roughness.jpg');
 
   const bricksColorTexture = textureLoader.load('/17/bricks/color.jpg');
-  const bricksambientOcclusionTexture = textureLoader.load(
-    '/17/bricks/ambientOcclusion.jpg'
-  );
+  const bricksAmbientOcclusionTexture = textureLoader.load('/17/bricks/ambientOcclusion.jpg');
   const bricksNormalTexture = textureLoader.load('/17/bricks/normal.jpg');
   const bricksRoughnessTexture = textureLoader.load('/17/bricks/roughness.jpg');
 
   const grassColorTexture = textureLoader.load('/17/grass/color.jpg');
-  const grassambientOcclusionTexture = textureLoader.load(
-    '/17/grass/ambientOcclusion.jpg'
-  );
+  const grassAmbientOcclusionTexture = textureLoader.load('/17/grass/ambientOcclusion.jpg');
   const grassNormalTexture = textureLoader.load('/17/grass/normal.jpg');
   const grassRoughnessTexture = textureLoader.load('/17/grass/roughness.jpg');
 
   grassColorTexture.repeat.set(8, 8);
-  grassambientOcclusionTexture.repeat.set(8, 8);
+  grassAmbientOcclusionTexture.repeat.set(8, 8);
   grassNormalTexture.repeat.set(8, 8);
   grassRoughnessTexture.repeat.set(8, 8);
 
   grassColorTexture.wrapS = RepeatWrapping;
-  grassambientOcclusionTexture.wrapS = RepeatWrapping;
+  grassAmbientOcclusionTexture.wrapS = RepeatWrapping;
   grassNormalTexture.wrapS = RepeatWrapping;
   grassRoughnessTexture.wrapS = RepeatWrapping;
 
   grassColorTexture.wrapT = RepeatWrapping;
-  grassambientOcclusionTexture.wrapT = RepeatWrapping;
+  grassAmbientOcclusionTexture.wrapT = RepeatWrapping;
   grassNormalTexture.wrapT = RepeatWrapping;
   grassRoughnessTexture.wrapT = RepeatWrapping;
 
@@ -109,23 +93,17 @@ onMounted(() => {
     new MeshStandardMaterial({
       map: bricksColorTexture,
       transparent: true,
-      aoMap: bricksambientOcclusionTexture,
+      aoMap: bricksAmbientOcclusionTexture,
       normalMap: bricksNormalTexture,
       roughnessMap: bricksRoughnessTexture,
-    })
+    }),
   );
-  walls.geometry.setAttribute(
-    'uv2',
-    new Float32BufferAttribute(walls.geometry.attributes.uv.array, 2)
-  );
+  walls.geometry.setAttribute('uv2', new Float32BufferAttribute(walls.geometry.attributes.uv.array, 2));
   walls.position.y = 2.5 / 2;
   house.add(walls);
 
   // Roof
-  const roof = new Mesh(
-    new ConeGeometry(3.5, 1, 4),
-    new MeshStandardMaterial({ color: '#b35f45' })
-  );
+  const roof = new Mesh(new ConeGeometry(3.5, 1, 4), new MeshStandardMaterial({ color: '#b35f45' }));
   roof.rotation.y = Math.PI / 4;
   roof.position.y = 3;
   house.add(roof);
@@ -143,12 +121,9 @@ onMounted(() => {
       normalMap: doorNormalTexture,
       metalnessMap: doorMetalnessTexture,
       roughnessMap: doorRoughnessTexture,
-    })
+    }),
   );
-  door.geometry.setAttribute(
-    'uv2',
-    new Float32BufferAttribute(door.geometry.attributes.uv.array, 2)
-  );
+  door.geometry.setAttribute('uv2', new Float32BufferAttribute(door.geometry.attributes.uv.array, 2));
   door.position.z = 2 + 0.01;
   door.position.y = 1;
   house.add(door);
@@ -204,16 +179,13 @@ onMounted(() => {
     new MeshStandardMaterial({
       map: grassColorTexture,
       transparent: true,
-      aoMap: grassambientOcclusionTexture,
+      aoMap: grassAmbientOcclusionTexture,
       normalMap: grassNormalTexture,
       roughnessMap: grassRoughnessTexture,
-    })
+    }),
   );
   floor.receiveShadow = true;
-  floor.geometry.setAttribute(
-    'uv2',
-    new Float32BufferAttribute(floor.geometry.attributes.uv.array, 2)
-  );
+  floor.geometry.setAttribute('uv2', new Float32BufferAttribute(floor.geometry.attributes.uv.array, 2));
   floor.rotation.x = -Math.PI * 0.5;
   floor.position.y = 0;
   scene.add(floor);
@@ -256,14 +228,14 @@ onMounted(() => {
   scene.add(camera);
 
   // Controls
-  const controls = new OrbitControls(camera, canvas);
+  const controls = new OrbitControls(camera, canvas.value);
   controls.enableDamping = true;
 
   /**
    * Renderer
    */
   const renderer = new WebGLRenderer({
-    canvas: canvas,
+    canvas: canvas.value,
   });
 
   // Shadows
@@ -320,11 +292,9 @@ onMounted(() => {
     ghost2.position.z = Math.sin(ghost2Angle) * 6;
 
     const ghost3Angle = -(elapsedTime * 0.18);
-    ghost3.position.x =
-      Math.cos(ghost3Angle) * (7 + Math.sin(elapsedTime * 0.32));
+    ghost3.position.x = Math.cos(ghost3Angle) * (7 + Math.sin(elapsedTime * 0.32));
     ghost3.position.y = Math.sin(elapsedTime * 4) + Math.sin(elapsedTime * 0.5);
-    ghost3.position.z =
-      Math.sin(ghost3Angle) * (7 + Math.sin(elapsedTime * 0.5));
+    ghost3.position.z = Math.sin(ghost3Angle) * (7 + Math.sin(elapsedTime * 0.5));
 
     // Update controls
     controls.update();

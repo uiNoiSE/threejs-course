@@ -5,19 +5,8 @@ import {
   BufferAttribute,
   Clock,
   CubeTextureLoader,
-  Color,
-  DoubleSide,
   Mesh,
   MeshPhysicalMaterial,
-  MeshBasicMaterial,
-  MeshDepthMaterial,
-  MeshLambertMaterial,
-  MeshMatcapMaterial,
-  MeshNormalMaterial,
-  MeshPhongMaterial,
-  MeshStandardMaterial,
-  MeshToonMaterial,
-  NearestFilter,
   PerspectiveCamera,
   PlaneGeometry,
   PointLight,
@@ -27,8 +16,8 @@ import {
   TorusGeometry,
   WebGLRenderer,
 } from 'three';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { useResize, handleMousemove } from '../mixins/global';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { handleMousemove, useResize } from '../mixins/global';
 import GUI from 'lil-gui';
 
 const handleResize = useResize();
@@ -48,23 +37,17 @@ onMounted(() => {
 
   // Textures
   const textureLoader = new TextureLoader();
-  const cubeTextureLoader = new CubeTextureLoader(); 
+  const cubeTextureLoader = new CubeTextureLoader();
 
   const doorColorTexture = textureLoader.load('/textures/door/color.jpg');
   const doorAlphaTexture = textureLoader.load('/textures/door/alpha.jpg');
-  const doorAmbientOcclusionTexture = textureLoader.load(
-    '/textures/door/ambientOcclusion.jpg'
-  );
+  const doorAmbientOcclusionTexture = textureLoader.load('/textures/door/ambientOcclusion.jpg');
   const doorHeightTexture = textureLoader.load('/textures/door/height.jpg');
   const doorNormalTexture = textureLoader.load('/textures/door/normal.jpg');
-  const doorMetalnessTexture = textureLoader.load(
-    '/textures/door/metalness.jpg'
-  );
-  const doorRoughnessTexture = textureLoader.load(
-    '/textures/door/roughness.jpg'
-  );
-  const matcapTexture = textureLoader.load('/textures/matcaps/8.png');
-  const gradientTexture = textureLoader.load('/textures/gradients/5.jpg');
+  const doorMetalnessTexture = textureLoader.load('/textures/door/metalness.jpg');
+  const doorRoughnessTexture = textureLoader.load('/textures/door/roughness.jpg');
+  // const matcapTexture = textureLoader.load('/textures/matcaps/8.png');
+  // const gradientTexture = textureLoader.load('/textures/gradients/5.jpg');
 
   const environmentMapTexture = cubeTextureLoader.load([
     '/textures/environmentMaps/0/px.jpg',
@@ -170,23 +153,14 @@ onMounted(() => {
   material.envMap = environmentMapTexture;
 
   const sphere = new Mesh(new SphereGeometry(0.5, 64, 64), material);
-  sphere.geometry.setAttribute(
-    'uv2',
-    new BufferAttribute(sphere.geometry.attributes.uv.array, 2)
-  );
+  sphere.geometry.setAttribute('uv2', new BufferAttribute(sphere.geometry.attributes.uv.array, 2));
   sphere.position.x = -1.5;
 
   const plane = new Mesh(new PlaneGeometry(1, 1, 100, 100), material);
-  plane.geometry.setAttribute(
-    'uv2',
-    new BufferAttribute(plane.geometry.attributes.uv.array, 2)
-  );
+  plane.geometry.setAttribute('uv2', new BufferAttribute(plane.geometry.attributes.uv.array, 2));
 
   const torus = new Mesh(new TorusGeometry(0.3, 0.2, 64, 128), material);
-  torus.geometry.setAttribute(
-    'uv2',
-    new BufferAttribute(torus.geometry.attributes.uv.array, 2)
-  );
+  torus.geometry.setAttribute('uv2', new BufferAttribute(torus.geometry.attributes.uv.array, 2));
   torus.position.x = 1.5;
   scene.add(sphere, plane, torus);
 
@@ -202,12 +176,7 @@ onMounted(() => {
    * Camera
    */
   // Base camera
-  const camera = new PerspectiveCamera(
-    75,
-    sizes.width / sizes.height,
-    0.1,
-    100
-  );
+  const camera = new PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100);
   camera.position.x = 1;
   camera.position.y = 1;
   camera.position.z = 2;
@@ -257,6 +226,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   canvas.value = null;
+  gui.destroy();
 });
 </script>
 

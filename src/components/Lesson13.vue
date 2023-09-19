@@ -1,53 +1,38 @@
 <script setup>
 import { onBeforeMount, onMounted, onUnmounted, ref } from 'vue';
-import {
-AxesHelper,
-  Clock,
-  Mesh,
-  MeshMatcapMaterial,
-  MeshNormalMaterial,
-  PerspectiveCamera,
-  Scene,
-  TextureLoader,
-  TorusGeometry,
-  WebGLRenderer,
-} from 'three';
-import { FontLoader } from 'three/addons/loaders/FontLoader.js';
-import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { useResize, useSizes, handleMousemove } from '../mixins/global';
+import { Clock, Mesh, MeshNormalMaterial, PerspectiveCamera, Scene, TorusGeometry, WebGLRenderer } from 'three';
+import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
+import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { handleMousemove, useResize, useSizes } from '../mixins/global';
 import GUI from 'lil-gui';
 
 const handleResize = useResize();
 const sizes = useSizes();
 const canvas = ref(null);
+const gui = new GUI();
 
 onBeforeMount(() => {
   window.addEventListener('mousemove', (e) => handleMousemove(e));
+  gui.hide();
 });
 
 onMounted(() => {
-  /**
-   * Base
-   */
+  canvas.value = document.querySelector('canvas.three');
   window.addEventListener('resize', () => handleResize(camera, renderer));
 
-  // Debug
-  // const gui = new GUI();
-
   // Canvas
-  const canvas = document.querySelector('canvas.three');
 
   // Scene
   const scene = new Scene();
 
-  const axesHelper = new AxesHelper();
+  // const axesHelper = new AxesHelper();
   // scene.add(axesHelper);
 
   /**
    * Textures
    */
-  const textureLoader = new TextureLoader();
+  // const textureLoader = new TextureLoader();
   // const matcapTexture = textureLoader.load('/textures/matcaps/8.png');
 
   /**
@@ -57,26 +42,26 @@ onMounted(() => {
   fontLoader.load('/fonts/helvetiker_regular.typeface.json', (font) => {
     const textGeometry = new TextGeometry('Three.js', {
       font,
-      size: 0.5,
-      height: 0.1,
+      size: 0.2,
+      height: 0.01,
       curveSegments: 24,
       bevelEnabled: true,
       bevelThickness: 0.03,
       bevelSize: 0.02,
       bevelOffset: 0,
-      bevelSgments: 50,
+      bevelSegments: 5,
     });
     textGeometry.computeBoundingBox();
     textGeometry.center();
 
     const material = new MeshNormalMaterial({
-    // const material = new MeshMatcapMaterial({
+      // const material = new MeshMatcapMaterial({
       // matcap: matcapTexture,
     });
     const text = new Mesh(textGeometry, material);
     scene.add(text);
 
-    console.time('donuts')
+    console.time('donuts');
 
     const donutGeometry = new TorusGeometry(0.3, 0.2, 20, 45);
 
@@ -91,11 +76,11 @@ onMounted(() => {
       donut.rotation.y = Math.random() * Math.PI;
 
       const scale = Math.random() * 0.9;
-      donut.scale.set(scale, scale, scale)
+      donut.scale.set(scale, scale, scale);
 
       scene.add(donut);
     }
-    console.timeEnd('donuts')
+    console.timeEnd('donuts');
   });
 
   /**
@@ -107,26 +92,19 @@ onMounted(() => {
    * Camera
    */
   // Base camera
-  const camera = new PerspectiveCamera(
-    75,
-    aspectRatio,
-    0.1,
-    100
-  );
-  camera.position.x = 1;
-  camera.position.y = 1;
-  camera.position.z = 3;
+  const camera = new PerspectiveCamera(75, aspectRatio, 0.1, 100);
+  camera.position.set(1, 1, 3);
   scene.add(camera);
 
   // Controls
-  const controls = new OrbitControls(camera, canvas);
+  const controls = new OrbitControls(camera, canvas.value);
   controls.enableDamping = true;
 
   /**
    * Renderer
    */
   const renderer = new WebGLRenderer({
-    canvas: canvas,
+    canvas: canvas.value,
   });
   renderer.setSize(sizes.width.value, sizes.height.value);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -157,6 +135,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   canvas.value = null;
+  gui.destroy();
 });
 </script>
 
