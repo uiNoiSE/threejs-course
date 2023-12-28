@@ -26,7 +26,7 @@ const sizes = useSizes();
 const gui = new GUI();
 const canvas = ref(null);
 const oldElapsedTime = ref(0);
-const props = {
+const config = {
   gravity: -9.8,
 };
 
@@ -82,7 +82,7 @@ onMounted(() => {
   const world = new World();
   world.broadphase = new SAPBroadphase(world);
   world.allowSleep = true;
-  world.gravity.set(0, props.gravity, 0);
+  world.gravity.set(0, config.gravity, 0);
 
   // Materials
   const defaultMaterial = new Material('default');
@@ -299,5 +299,5 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <canvas class="three"></canvas>
+  <canvas class='three'></canvas>
 </template>

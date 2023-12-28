@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang='js'>
 import { ref } from 'vue';
 import Lesson03 from './components/Lesson03.vue';
 import Lesson05 from './components/Lesson05.vue';
@@ -19,6 +19,8 @@ import Lesson20 from './components/Lesson20.vue';
 import Lesson21 from './components/Lesson21.vue';
 import Lesson22 from './components/Lesson22.vue';
 import Lesson23 from './components/Lesson23.vue';
+import Lesson24 from './components/Lesson24.vue';
+import Lesson25 from './components/Lesson25.vue';
 
 const lessons = [
   {
@@ -97,9 +99,17 @@ const lessons = [
     name: '23 - Ray casting',
     component: Lesson23,
   },
+  {
+    name: '24 - Custom Blender Model',
+    component: Lesson24,
+  },
+  {
+    name: '25 - Realistic Render',
+    component: Lesson25,
+  },
 ];
 
-const chosenLesson = ref(18);
+const chosenLesson = ref(20);
 const isMenuOpen = ref(false);
 
 const chooseLesson = (lesson) => {
