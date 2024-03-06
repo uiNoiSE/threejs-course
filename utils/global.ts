@@ -1,13 +1,13 @@
 import { ref } from "vue";
 
-export function useSizes() {
+export const useSizes = () => {
   return {
     width: ref(window.innerWidth),
     height: ref(window.innerHeight),
   };
 }
 
-export function useResize() {
+export const useResize = () => {
   return (camera, renderer) => {
     useSizes().width.value = window.innerWidth;
     useSizes().height.value = window.innerHeight;
@@ -18,7 +18,7 @@ export function useResize() {
   };
 }
 
-export function handleFullscreen(canvas) {
+export const handleFullscreen = (canvas) => {
   const fullscreenElement =
     document.fullscreenElement || document.webkitFullscreenElement;
 
@@ -38,7 +38,7 @@ export function handleFullscreen(canvas) {
   return fullscreenElement;
 }
 
-export function handleMousemove(e) {
+export const handleMousemove = (e) => {
   const cursor = {
     x: ref(0),
     y: ref(0),

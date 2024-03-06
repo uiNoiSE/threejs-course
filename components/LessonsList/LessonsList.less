@@ -1,0 +1,23 @@
+.lessons {
+  &__title {
+    margin-bottom: 24px;
+  }
+
+  &__link {
+    a {
+      display: inline-block;
+      border-bottom: 1px solid transparent;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color @t-main;
+
+      .hover({
+        border-color: black;
+      });
+    }
+
+    &:not(:last-child) {
+      margin-bottom: 8px;
+    }
+  }
+}

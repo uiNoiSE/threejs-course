@@ -142,5 +142,5 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <canvas class='three'></canvas>
+  <canvas class="three"></canvas>
 </template>
