@@ -9,6 +9,9 @@ export default defineNuxtConfig({
       baseURL: '/threejs-course',
       buildAssetsDir: 'dist',
     },
+    features: {
+      inlineStyles: false,
+    },
   },
   vite: {
     plugins: [
@@ -31,6 +34,9 @@ export default defineNuxtConfig({
           }),
         ],
       },
+    },
+    build: {
+      assetsInlineLimit: 0,
     },
   },
   nitro: {
