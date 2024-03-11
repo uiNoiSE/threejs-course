@@ -4,6 +4,11 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ["@tresjs/nuxt"],
   css: ['~/assets/styles/main.less'],
+  $production: {
+    app: {
+      baseURL: '/threejs-course'
+    },
+  },
   vite: {
     plugins: [
       // @ts-ignore
