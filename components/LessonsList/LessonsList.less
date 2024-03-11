@@ -1,3 +1,5 @@
+@import "assets/styles/_helpers";
+
 .lessons {
   &__container {
     max-width: 1440px;
@@ -18,7 +20,13 @@
       transition: border-color @t-main;
 
       .hover({
-        border-color: black;
+        @media (prefers-color-scheme: light) {
+          border-color: @c-black;
+        }
+
+        @media (prefers-color-scheme: dark) {
+          border-color: @c-white;
+        }
       });
     }
 

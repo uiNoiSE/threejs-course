@@ -10,14 +10,6 @@ export default defineNuxtConfig({
       postCssPxToRem(),
     ],
     css: {
-      preprocessorOptions: {
-        less: {
-          additionalData: `
-            @import "~/assets/styles/mixins.less";
-            @import "~/assets/styles/variables.less";
-          `,
-        },
-      },
       postcss: {
         plugins: [
           postCssPxToRem({
