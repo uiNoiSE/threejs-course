@@ -12,7 +12,7 @@ export default defineNuxtConfig({
     css: {
       preprocessorOptions: {
         less: {
-          additionalData: '@import "~/assets/styles/_helpers.less";',
+          additionalData: '@import "./assets/styles/_helpers.less";',
         },
       },
       postcss: {
