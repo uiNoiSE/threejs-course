@@ -2,11 +2,12 @@ import postCssPxToRem from 'postcss-pxtorem';
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ["@tresjs/nuxt"],
+  modules: ['@tresjs/nuxt'],
   css: ['~/assets/styles/main.less'],
   $production: {
     app: {
-      baseURL: '/threejs-course'
+      baseURL: '/threejs-course',
+      buildAssetsDir: 'dist',
     },
   },
   vite: {
