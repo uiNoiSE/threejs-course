@@ -2,6 +2,7 @@
 </script>
 
 <template>
+  <NuxtLink to="/">go back</NuxtLink>
   <TresCanvas ref="canvas" window-size clearColor="#1b1b1f">
     <TresPerspectiveCamera
       :position="[0, 0, 3]"

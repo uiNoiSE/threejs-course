@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@tresjs/cientos": "^3.8.0",
+    "@tresjs/core": "^3.7.0",
     "@tresjs/nuxt": "^2.1.1",
     "cannon-es": "^0.20.0",
     "gsap": "^3.12.5",

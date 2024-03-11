@@ -1,49 +1,13 @@
-import { ref } from "vue";
-
-export const useSizes = () => {
-  return {
-    width: ref(window.innerWidth),
-    height: ref(window.innerHeight),
-  };
-}
-
-export const useResize = () => {
-  return (camera, renderer) => {
-    useSizes().width.value = window.innerWidth;
-    useSizes().height.value = window.innerHeight;
-    camera.aspect = useSizes().width.value / useSizes().height.value;
-    camera.updateProjectionMatrix();
-    renderer.setSize(useSizes().width.value, useSizes().height.value);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  };
-}
-
-export const handleFullscreen = (canvas) => {
-  const fullscreenElement =
-    document.fullscreenElement || document.webkitFullscreenElement;
-
-  if (!fullscreenElement) {
-    if (canvas.value.requestFullscreen) {
-      canvas.value.requestFullscreen();
-    } else if (canvas.value.webkitRequestFullscreen) {
-      canvas.value.webkitRequestFullscreen();
+export const toggleFullScreen = async (canvas: HTMLElement) => {
+  try {
+    if (!document.fullscreenElement) {
+      await canvas.requestFullscreen();
+    } else {
+      if (document.exitFullscreen) {
+        await document.exitFullscreen();
+      }
     }
-  } else {
-    if (document.exitFullscreen) {
-      document.exitFullscreen();
-    } else if (document.webkitExitFullscreen) {
-      document.webkitExitFullscreen();
-    }
+  } catch (error) {
+    console.error('Error toggling fullscreen:', error);
   }
-  return fullscreenElement;
-}
-
-export const handleMousemove = (e) => {
-  const cursor = {
-    x: ref(0),
-    y: ref(0),
-  };
-
-  cursor.x.value = e.clientX / useSizes().width.value - 0.5;
-  cursor.y.value = -(e.clientY / useSizes().height.value - 0.5);
-}
+};

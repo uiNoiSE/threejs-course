@@ -8,22 +8,22 @@ const lessons = [
     name: '05 - Transform Object',
     component: 'Lesson05',
   },
-  // {
-  //   name: '06 - Animations',
-  //   component: 'Lesson06',
-  // },
-  // {
-  //   name: '07 - Cameras',
-  //   component: 'Lesson07',
-  // },
-  // {
-  //   name: '08 - Fullscreen and resizing',
-  //   component: 'Lesson08',
-  // },
-  // {
-  //   name: '09 - Geometries',
-  //   component: 'Lesson09',
-  // },
+  {
+    name: '06 - Animations',
+    component: 'Lesson06',
+  },
+  {
+    name: '07 - Cameras',
+    component: 'Lesson07',
+  },
+  {
+    name: '08 - Fullscreen and resizing',
+    component: 'Lesson08',
+  },
+  {
+    name: '09 - Geometries',
+    component: 'Lesson09',
+  },
   // {
   //   name: '10 - Debug UI',
   //   component: 'Lesson10',
@@ -93,12 +93,14 @@ const lessons = [
 
 <template>
   <div class="lessons">
-    <h2 class="lessons__title">Lessons:</h2>
-    <ul>
-      <li v-for="lesson in lessons" class="lessons__link" >
-        <NuxtLink :to="lesson.component">{{ lesson.name }}</NuxtLink>
-      </li>
-    </ul>
+    <div class="lessons__container">
+      <h2 class="lessons__title">Lessons:</h2>
+      <ul>
+        <li v-for="lesson in lessons" class="lessons__link">
+          <NuxtLink :to="lesson.component">{{ lesson.name }}</NuxtLink>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
