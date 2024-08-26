@@ -24,10 +24,10 @@ const lessons = [
     name: '09 - Geometries',
     component: 'Lesson09',
   },
-  // {
-  //   name: '10 - Debug UI',
-  //   component: 'Lesson10',
-  // },
+  {
+    name: '10 - Debug UI',
+    component: 'Lesson10',
+  },
   // {
   //   name: '11 - Textures',
   //   component: 'Lesson11',

@@ -2,7 +2,6 @@ import postCssPxToRem from 'postcss-pxtorem';
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ['@tresjs/nuxt'],
   css: ['~/assets/styles/main.less'],
   $production: {
     app: {
@@ -11,6 +10,12 @@ export default defineNuxtConfig({
     },
     features: {
       inlineStyles: false,
+    },
+  },
+  $development: {
+    app: {
+      baseURL: '/',
+      buildAssetsDir: 'dist',
     },
   },
   vite: {

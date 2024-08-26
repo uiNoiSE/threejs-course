@@ -20,13 +20,7 @@
       transition: border-color @t-main;
 
       .hover({
-        @media (prefers-color-scheme: light) {
-          border-color: @c-black;
-        }
-
-        @media (prefers-color-scheme: dark) {
-          border-color: @c-white;
-        }
+        border-color: inherit;
       });
     }
 
