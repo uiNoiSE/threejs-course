@@ -19,13 +19,15 @@ useHead({
   htmlAttrs: {
     lang: 'en',
   },
-  link: [
-    {
-      rel: 'shortcut icon',
-      type: 'image/svg+xml',
-      href: `${process.env.NODE_ENV === 'production' ? config.app.baseURL : ''}/favicon.svg`,
-    },
-  ],
+  link: [{
+    rel: 'icon',
+    type: 'image/svg+xml',
+    href: '/favicon.svg',
+  }, {
+    rel: 'shortcut icon',
+    type: 'image/svg+xml',
+    href: `${process.env.NODE_ENV === 'production' ? config.app.baseURL : ''}/favicon.svg`,
+  }],
 });
 </script>
 
