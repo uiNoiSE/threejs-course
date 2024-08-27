@@ -11,11 +11,21 @@ export default defineNuxtConfig({
     features: {
       inlineStyles: false,
     },
+    runtimeConfig: {
+      public: {
+        siteUrl: 'https://uinoise.github.io/threejs-course/',
+      },
+    },
   },
   $development: {
     app: {
       baseURL: '/',
       buildAssetsDir: 'dist',
+    },
+    runtimeConfig: {
+      public: {
+        siteUrl: '/',
+      },
     },
   },
   vite: {
