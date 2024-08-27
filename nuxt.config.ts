@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   css: ['~/assets/styles/main.less'],
   $production: {
     app: {
-      baseURL: '/threejs-course',
+      baseURL: 'https://github.com/uiNoiSE/threejs-course/',
       buildAssetsDir: 'dist',
     },
     features: {
