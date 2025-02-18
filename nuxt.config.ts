@@ -1,7 +1,11 @@
 import postCssPxToRem from 'postcss-pxtorem';
 
 export default defineNuxtConfig({
-  devtools: { enabled: true },
+  modules: ['@vueuse/nuxt'],
+  devtools: {
+    enabled: false,
+    telemetry: false,
+  },
   css: ['~/assets/styles/main.less'],
   $production: {
     app: {

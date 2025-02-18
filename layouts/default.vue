@@ -36,8 +36,6 @@ useHead({
    https://lil-gui.georgealways.com/#:~:text=rotation.x%27%20)%3B-,Styling,-By%20default%2C%20the
   -->
   <!--  <header-block />-->
-  <ClientOnly>
-    <slot />
-  </ClientOnly>
+  <slot />
   <!--  <footer-block />-->
 </template>
